@@ -17,7 +17,3 @@ A simple Streamlit app that displays NASA’s Astronomy Picture of the Day (APOD
 
 ### 1. Get API key
 Create a key here: https://api.nasa.gov/
-
-Replace in code:
-```python
-api_key = "YOUR_API_KEY"
