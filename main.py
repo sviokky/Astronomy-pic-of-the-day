@@ -24,7 +24,7 @@ st.set_page_config(
 )
 
 st.title("Astronomy Picture of the Day")
-st.write("NASA daily space content (image or video)")
+st.write("NASA's daily space content.")
 
 st.subheader(title)
 
