@@ -5,20 +5,31 @@ from dotenv import load_dotenv
 
 load_dotenv()
 api_key = os.getenv("api_key")
-url = f"https://api.nasa.gov/planetary/apod?api_key={api_key}"
+url = f"https://api.nasa.gov/planetary/apod?api_key={api_key}&thumbs=true"
 
 response = requests.get(url)
 data = response.json()
 
-image_url = data.get("url")
+
 media_type = data.get("media_type")
+title = data.get("title", "No title available")
+explanation = data.get("explanation", "No description available")
+media_url = data.get("url")
+
 
 st.set_page_config(
     page_title="APOD",
     page_icon="⭐",
     layout="centered"
 )
-if media_type == "image" and image_url:
+
+st.title("Astronomy Picture of the Day")
+st.write("NASA daily space content (image or video)")
+
+st.subheader(title)
+
+if media_type == "image":
+    st.image(media_url)
     st.markdown(
         f"""
         <style>
@@ -35,7 +46,7 @@ if media_type == "image" and image_url:
             background-image: url("{data["url"]}");
             background-size: cover;
             background-position: center;
-            filter: blur(15px);
+            filter: blur(25px);
             transform: scale(1.1);
             z-index: -1;
         }}
@@ -45,18 +56,9 @@ if media_type == "image" and image_url:
         """,
         unsafe_allow_html=True
     )
-
 else:
-    st.warning("Today's APOD is not an image (it may be a video).")
+    st.video(media_url)
 
-st.title("Astronomy Picture of the Day")
-st.write("This webpage shows the picture of the day by NASA every day")
 
-st.subheader(data.get("title", "No title available"))
 
-if media_type == "image":
-    st.image(image_url)
-else:
-    st.video(image_url)
-
-st.write(data.get("explanation", "No description available"))
+st.write(explanation)
